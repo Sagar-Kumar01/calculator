@@ -11,8 +11,8 @@ window.addEventListener("keydown", function(obj) {
         inputs.value = inputs.value + obj.key;
         inputs.scrollLeft = inputs.scrollWidth;
     }
-    if (obj.key == "=") {
-        console.log(tokenize(inputs.value))
+    if (obj.key == "=" && inputs.value != "") {
+        tokenize(inputs.value)
     }
     if (obj.key == "Backspace") {
         if (inputs.value.length != 0) {
@@ -27,6 +27,49 @@ window.addEventListener("keydown", function(obj) {
     }
 
 
+})
+
+operation_button.forEach(function(buttons){
+    
+    buttons.addEventListener("click",event =>{
+        if (event.target.value == "=" && inputs.value != "") {
+        tokenize(inputs.value)
+        }
+
+      if (event.target.value == "DEL") {
+        if (inputs.value.length != 0) {
+            let temp = inputs.value.split("");
+            temp = temp.slice(0, -1);
+            inputs.value = temp.join("")
+        }
+      }
+
+      if (event.target.value == "AC") {
+        inputs.value = ""
+        }
+      
+    })
+})
+
+digit_button_button.forEach(function(button){
+    button.addEventListener("click",event =>{
+        let num = Number(event.target.value);
+
+        if((num>=0 && num<=9) || event.target.value == "."){
+            inputs.value = inputs.value + event.target.value;
+        }
+    })
+})
+
+operation_button_button.forEach(function(button){
+    button.addEventListener("click",event=>{
+        if(event.target.value == "+"||event.target.value == "-" ||
+            event.target.value == "/" || event.target.value == "*"
+        ){
+            inputs.value = inputs.value + event.target.value;
+            inputs.scrollLeft = inputs.scrollWidth;
+        }
+    })
 })
 
 function tokenize(expression) {
@@ -92,6 +135,4 @@ function divs(a, b) {
     a = Number(a);
     b = Number(b);
     return (a / b).toFixed(2);
-    
-    
 }
